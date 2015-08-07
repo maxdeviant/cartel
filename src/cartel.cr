@@ -5,6 +5,8 @@ module Cartel
     view_handler = ViewHandler.new(File.join(__DIR__, "views"))
 
     server = HTTP::Server.new(8080) do |request|
+        puts "[#{request.method}] #{request.path}"
+
         case request.path
         when "/"
             HTTP::Response.ok "text/html", view_handler.load("index.html")
