@@ -9,6 +9,9 @@ module Cartel
         when "/"
             view = View.new("index", "default")
             view.render
+        when "/css/cartel.css"
+            asset = Asset.new(request.path)
+            asset.serve
         else
             view = View.new("404", "default")
             view.render(404)
