@@ -7,6 +7,10 @@ class View
         HTTP::Response.ok("text/html", compile)
     end
 
+    def render(status_code : Int32) : HTTP::Response
+        HTTP::Response.new(status_code, compile, HTTP::Headers{"Content-type": "text/html"})
+    end
+
     private def compile : String
         if @layout.empty?
             view_html = File.read(@view_path)

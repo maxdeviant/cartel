@@ -11,7 +11,7 @@ module Cartel
             view.render
         else
             view = View.new("404", "default")
-            view.render
+            view.render(404)
         end
     end
 
