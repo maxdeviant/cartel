@@ -3,8 +3,8 @@ class View
         @view_path = get_view_path(@name)
     end
 
-    def render : HTTP::Response
-        HTTP::Response.ok("text/html", compile)
+    def render : String
+        compile
     end
 
     def render(status_code : Int32) : HTTP::Response

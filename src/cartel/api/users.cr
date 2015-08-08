@@ -10,6 +10,12 @@ module API
             Array(API::Models::User).from_json(load_repository)
         end
 
+        def find_one_by_id(id) : API::Models::User
+            users = list
+
+            users.each { |user| return user if user.id == id  }.first
+        end
+
         def create(user : API::Models::User) : Bool
             if exists?(user.id)
                 return false
