@@ -9,6 +9,14 @@ module Cartel
         when "/"
             view = View.new("index", "default")
             view.render
+        when "/play"
+            unless request.method == "POST"
+                return HTTP::Response.new(302, "", HTTP::Headers{"Location": "http://localhost:8080/"})
+            end
+
+            params = BodyParser.parse(request.body)
+
+            HTTP::Response.ok "text/plain", "yes"
         when "/css/cartel.css"
             asset = Asset.new(request.path)
             asset.serve
