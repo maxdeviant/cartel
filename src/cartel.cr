@@ -1,9 +1,12 @@
 require "./cartel/*"
+require "./cartel/api"
 require "http/server"
 
 module Cartel
     server = HTTP::Server.new(8080) do |request|
         puts "[#{request.method}] #{request.path}"
+
+        users_api = API::Users.new()
 
         case request.path
         when "/"
@@ -15,6 +18,10 @@ module Cartel
             end
 
             params = BodyParser.parse(request.body)
+
+            user = API::Models::User.new(params["username"])
+
+            users_api.create(user)
 
             HTTP::Response.ok "text/plain", "yes"
         when "/css/cartel.css"
