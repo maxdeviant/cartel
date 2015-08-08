@@ -81,7 +81,7 @@ class View
     end
 
     private def get_view_directory : String
-        File.join(__DIR__, "../views")
+        File.join(__DIR__, "../../views")
     end
 
     private def get_layout_path(name : String) : String
