@@ -7,10 +7,10 @@ module Cartel
 
         case request.path
         when "/"
-            view = View.new("index.html", "default")
+            view = View.new("index", "default")
             view.render
         else
-            view = View.new("404.html", "default")
+            view = View.new("404", "default")
             view.render
         end
     end
