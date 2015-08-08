@@ -21,6 +21,7 @@ class View
 
     private def compile(layout : String) : String
         layout_path = get_layout_path(layout)
+
         layout_html = File.read(layout_path)
 
         layout_html = compile_partials(layout_html)
