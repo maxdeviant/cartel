@@ -22,7 +22,7 @@ module API
             save_repository(users.to_json)
         end
 
-        def exists?(id)
+        def exists?(id : String) : Bool
             users = list
 
             users.each do |user|

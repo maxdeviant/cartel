@@ -5,11 +5,11 @@ module API::Models
             username: String
         })
 
-        def initialize(@username)
+        def initialize(@username : String)
             @id = generate_id
         end
 
-        private def generate_id
+        private def generate_id : String
             bank = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("").shuffle
 
             id = ""
