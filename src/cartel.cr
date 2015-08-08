@@ -7,10 +7,11 @@ module Cartel
 
         case request.path
         when "/"
-            view = View.new("index.html")
+            view = View.new("index.html", "default")
             view.render
         else
-            HTTP::Response.not_found
+            view = View.new("404.html", "default")
+            view.render
         end
     end
 

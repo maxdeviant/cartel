@@ -25,9 +25,27 @@ class View
 
         layout_html = compile_partials(layout_html)
 
-        puts layout_html
+        block_pattern = /{{.*block.*}}/
 
-        return ""
+        block_matches = layout_html.scan(block_pattern)
+
+        block_matches.each do |match|
+            block = match[0].split('"')[1]
+
+            unless File.file? @view_path
+                puts "Could not find view: #{@view_path}."
+
+                next
+            end
+
+            view_html = File.read(@view_path)
+
+            view_html = compile_partials(view_html)
+
+            layout_html = layout_html.gsub(match[0], view_html)
+        end
+
+        return layout_html
     end
 
     private def compile_partials(html : String) : String
@@ -40,7 +58,7 @@ class View
             partial_path = get_partial_path(partial)
 
             unless File.file? partial_path
-                puts "Could not find #{partial_path}."
+                puts "Could not find partial: #{partial_path}."
 
                 next
             end
