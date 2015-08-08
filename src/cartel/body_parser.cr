@@ -10,6 +10,6 @@ class BodyParser
             parsed_params[name] = value
         end
 
-        return parsed_params
+        parsed_params
     end
 end

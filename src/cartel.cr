@@ -21,9 +21,11 @@ module Cartel
 
             user = API::Models::User.new(params["username"])
 
-            users_api.create(user)
+            if users_api.create(user)
+                return HTTP::Response.new(302, "", HTTP::Headers{"Location": "http://localhost:8080/game/#{user.id}"})
+            end
 
-            HTTP::Response.ok "text/plain", "yes"
+            HTTP::Response.new(400, "User already exists", HTTP::Headers{"Content-type": "text/plain"})
         when "/css/cartel.css"
             asset = Asset.new(request.path)
             asset.serve

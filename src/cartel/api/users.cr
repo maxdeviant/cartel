@@ -10,9 +10,9 @@ module API
             Array(API::Models::User).from_json(load_repository)
         end
 
-        def create(user : API::Models::User)
+        def create(user : API::Models::User) : Bool
             if exists?(user.id)
-                puts "User already exists."
+                return false
             end
 
             users = list
@@ -20,6 +20,8 @@ module API
             users.push(user)
 
             save_repository(users.to_json)
+
+            true
         end
 
         def exists?(id : String) : Bool
@@ -31,7 +33,7 @@ module API
                 end
             end
 
-            return false
+            false
         end
 
         private def load_repository

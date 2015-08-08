@@ -18,7 +18,7 @@ module API::Models
                 id += bank.sample
             end
 
-            return Base64.urlsafe_encode64(id)
+            Base64.urlsafe_encode64(id)
         end
     end
 end
