@@ -1,23 +1,43 @@
 class View
-    def initialize(@name : String)
-        @path = File.join(__DIR__, "../views", to_html(name))
+    def initialize(@name : String, @layout = "" : String)
+        @view_path = get_view_path(@name)
     end
 
-    def render
+    def render : HTTP::Response
         HTTP::Response.ok("text/html", compile)
     end
 
-    private def compile
-        view = File.read(@path)
+    private def compile : String
+        if @layout.empty?
+            view_html = File.read(@view_path)
 
-        partials = view.scan(/{{.*.}}/)
+            view_html = compile_partials(view_html)
 
-        partials.each do |partial|
-            partial_name = partial[0].split('"')[1]
+            return view_html
+        else
+            return compile(@layout)
+        end
+    end
 
-            partial_name = to_html(partial_name)
+    private def compile(layout : String) : String
+        layout_path = get_layout_path(layout)
+        layout_html = File.read(layout_path)
 
-            partial_path = File.join(__DIR__, "../views/_partials", partial_name)
+        layout_html = compile_partials(layout_html)
+
+        puts layout_html
+
+        return ""
+    end
+
+    private def compile_partials(html : String) : String
+        partial_pattern = /{{.*include.*}}/
+
+        partial_matches = html.scan(partial_pattern)
+
+        partial_matches.each do |match|
+            partial = match[0].split('"')[1]
+            partial_path = get_partial_path(partial)
 
             unless File.file? partial_path
                 puts "Could not find #{partial_path}."
@@ -25,15 +45,35 @@ class View
                 next
             end
 
-            partial_contents = File.read(partial_path)
+            partial_html = File.read(partial_path)
 
-            view = view.gsub(partial[0], partial_contents)
+            unless partial_html.scan(partial_pattern).empty?
+                partial_html = compile_partials(partial_html)
+            end
+
+            html = html.gsub(match[0], partial_html)
         end
 
-        return view
+        return html
     end
 
-    private def to_extension(name, extension)
+    private def get_view_directory : String
+        File.join(__DIR__, "../views")
+    end
+
+    private def get_layout_path(name : String) : String
+        File.join(get_view_directory, "_layouts", to_html(name))
+    end
+
+    private def get_view_path(name : String) : String
+        File.join(get_view_directory, to_html(name))
+    end
+
+    private def get_partial_path(name : String) : String
+        File.join(get_view_directory, "_partials", to_html(name))
+    end
+
+    private def to_extension(name : String, extension : String) : String
         if !name.ends_with? extension
             return name + extension
         end
@@ -41,7 +81,7 @@ class View
         return name
     end
 
-    private def to_html(name)
+    private def to_html(name : String) : String
         to_extension(name, ".html")
     end
 end
