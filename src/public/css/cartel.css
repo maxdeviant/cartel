@@ -3,6 +3,11 @@
     padding: 0;
 }
 
+html {
+    font-family: 'Sanchez', serif;
+    font-weight: 400;
+}
+
 .header {
     height: 50px;
 }
@@ -10,4 +15,31 @@
 .header .title {
     margin: 5px;
     font-size: 2em;
+}
+
+.container {
+    width: 720px;
+    margin: 0 auto;
+}
+
+.splash {
+
+}
+
+.splash .title {
+    font-size: 5em;
+    text-align: center;
+}
+
+.splash .subtitle {
+    font-size: 2em;
+    text-align: center;
+}
+
+.splash .content {
+    margin-top: 1em;
+}
+
+.game {
+    background: #222;
 }
