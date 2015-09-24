@@ -1,6 +1,8 @@
 # cartel
 
-TODO: Write a description here for library
+What was originally meant to be a text-based game about running a drug empire devolved into an unfinished web framework.
+
+>"Classic maxdeviant."
 
 ## Installation
 
